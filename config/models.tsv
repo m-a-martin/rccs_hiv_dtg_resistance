@@ -1,0 +1,44 @@
+outcome	filter	label	model
+#### AMONG PARTICIPANTS ####
+"finalhiv == 'P'"	TRUE	hiv_among_par	y ~ round
+"(finalhiv == 'P') & (pre_treatment == FALSE)"	TRUE	tx_among_par	y ~ round
+"(finalhiv == 'P') & (pre_treatment == FALSE) & (viremic == FALSE)"	"round > 15 & (finalhiv == 'N' | !is.na(viremic))"	supp_among_par	y ~ round
+"(finalhiv == 'P') & (!is.na(viremic) & viremic == TRUE)"	"round > 15 & (finalhiv == 'N' | !is.na(viremic))"	viremic_among_par	y ~ round
+#### AMONG PLHIV #####
+"(finalhiv == 'P') & (pre_treatment == FALSE)"	"(finalhiv == 'P')"	tx_among_plhiv	y ~ round
+"(finalhiv == 'P') & (pre_treatment == FALSE) & (!is.na(viremic) & viremic == FALSE)"	"(round > 15) & (finalhiv == 'P') & !is.na(viremic)"	supp_among_plhiv	y ~ round
+#### AMONG VIREMIC ####
+"(finalhiv == 'P') & (pre_treatment == FALSE) & (!is.na(viremic) & viremic == TRUE)"	"(round > 15) & (finalhiv == 'P') & (!is.na(viremic) & viremic == TRUE)"	tx_among_viremic	y ~ round
+#### AMONG TX ####
+"(finalhiv == 'P') & (pre_treatment == FALSE) & (!is.na(viremic) & viremic == FALSE)"	"(round > 15) & (finalhiv == 'P') & (pre_treatment == FALSE) & !is.na(viremic)"	supp_among_tx	y ~ round
+#### RESISTANCE ####
+## among viremic tx ##
+"(if_else(is.na(insti) | is.na(nnrti) | is.na(nrti) | is.na(pi), NA, TRUE) & (insti == 'intermediate/high') | (nnrti == 'intermediate/high') | (nrti == 'intermediate/high') | (pi == 'intermediate/high'))"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	any_among_viremic_tx	y ~ round
+"(if_else(is.na(insti) | is.na(nnrti) | is.na(nrti) | is.na(pi), NA, TRUE) & (insti == 'intermediate/high') | (nnrti == 'intermediate/high') | (nrti == 'intermediate/high') | (pi == 'intermediate/high'))"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	any_among_viremic_tx_sex	y ~ sex
+"(if_else(is.na(insti) | is.na(nnrti) | is.na(nrti) | is.na(pi), NA, TRUE) & (insti == 'intermediate/high') | (nnrti == 'intermediate/high') | (nrti == 'intermediate/high') | (pi == 'intermediate/high'))"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	any_among_viremic_tx_sex_round	y ~ sex + round
+"(if_else(is.na(insti) | is.na(nnrti) | is.na(nrti) | is.na(pi), NA, TRUE) & (insti == 'intermediate/high') | (nnrti == 'intermediate/high') | (nrti == 'intermediate/high') | (pi == 'intermediate/high'))"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	any_among_viremic_tx_age_cat	y ~ age_cat
+"(if_else(is.na(insti) | is.na(nnrti) | is.na(nrti) | is.na(pi), NA, TRUE) & (insti == 'intermediate/high') | (nnrti == 'intermediate/high') | (nrti == 'intermediate/high') | (pi == 'intermediate/high'))"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	any_among_viremic_tx_age_cat_round	y ~ age_cat + round
+"(if_else(is.na(insti) | is.na(nnrti) | is.na(nrti) | is.na(pi), NA, TRUE) & (insti == 'intermediate/high') | (nnrti == 'intermediate/high') | (nrti == 'intermediate/high') | (pi == 'intermediate/high'))"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	any_among_viremic_tx_comm_cat	y ~ comm_cat
+"(if_else(is.na(insti) | is.na(nnrti) | is.na(nrti) | is.na(pi), NA, TRUE) & (insti == 'intermediate/high') | (nnrti == 'intermediate/high') | (nrti == 'intermediate/high') | (pi == 'intermediate/high'))"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	any_among_viremic_tx_comm_cat_round	y ~ comm_cat + round
+"(if_else(is.na(insti) | is.na(nnrti) | is.na(nrti) | is.na(pi), NA, TRUE) & (insti == 'intermediate/high') | (nnrti == 'intermediate/high') | (nrti == 'intermediate/high') | (pi == 'intermediate/high'))"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	any_among_viremic_tx_subtype_bestref_cat	y ~ subtype_bestref_cat
+"(if_else(is.na(insti) | is.na(nnrti) | is.na(nrti) | is.na(pi), NA, TRUE) & (insti == 'intermediate/high') | (nnrti == 'intermediate/high') | (nrti == 'intermediate/high') | (pi == 'intermediate/high'))"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	any_among_viremic_tx_subtype_bestref_cat_round	y ~ subtype_bestref_cat + round
+"(insti == 'intermediate/high')"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	insti_among_viremic_tx	y ~ round
+"(nnrti == 'intermediate/high')"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	nnrti_among_viremic_tx	y ~ round
+"(nrti == 'intermediate/high')"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	nrti_among_viremic_tx	y ~ round
+"(pi == 'intermediate/high')"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	pi_among_viremic_tx	y ~ round
+"(insti == 'intermediate/high') + (nnrti == 'intermediate/high') + (nrti == 'intermediate/high') + (pi == 'intermediate/high') > 1"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	multi-class_among_viremic_tx	y ~ round
+"(insti == 'intermediate/high') + (nnrti == 'intermediate/high') + (nrti == 'intermediate/high') + (pi == 'intermediate/high') == 1"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	single-class_among_viremic_tx	y ~ round
+"(dtg == 'intermediate/high')"	"(round > 15) & (finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == FALSE)"	dtg_among_viremic_tx	y ~ round
+## among viremic pt ##
+"(insti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	insti_among_viremic_pt	y ~ round
+"(nnrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	nnrti_among_viremic_pt	y ~ round
+"(nnrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	nnrti_among_viremic_pt_sex	y ~ sex
+"(nnrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	nnrti_among_viremic_pt_sex_round	y ~ sex + round
+"(nnrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE) & !is.na(comm_cat)"	nnrti_among_viremic_pt_comm_cat	y ~ comm_cat
+"(nnrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE) & !is.na(comm_cat)"	nnrti_among_viremic_pt_comm_cat_round	y ~ comm_cat + round
+"(nnrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	nnrti_among_viremic_pt_age_cat	y ~ age_cat
+"(nnrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	nnrti_among_viremic_pt_age_cat_round	y ~ age_cat + round
+"(nnrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	nnrti_among_viremic_pt_subtype_bestref_cat	y ~ subtype_bestref_cat
+"(nnrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	nnrti_among_viremic_pt_subtype_bestref_cat_round	y ~ subtype_bestref_cat + round
+"(nrti == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	nrti_among_viremic_pt	y ~ round
+"(pi == 'intermediate/high')"	"(finalhiv == 'P') & (viremic == TRUE) & (pre_treatment == TRUE)"	pi_among_viremic_pt	y ~ round

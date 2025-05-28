@@ -1,0 +1,3 @@
+var	RR	LCI	UCI	P	label	corr
+(Intercept)	0.06581464637360601	0.053122355156300406	0.08153945103785706	0	nnrti_among_viremic_pt_comm_cat	independence
+comm_catinland	1.1251897111579778	0.8441169310035397	1.4998536809238159	0.42119886484233715	nnrti_among_viremic_pt_comm_cat	independence

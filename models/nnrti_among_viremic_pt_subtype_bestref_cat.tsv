@@ -1,0 +1,5 @@
+var	RR	LCI	UCI	P	label	corr
+(Intercept)	0.06749424179502145	0.05219765812542157	0.08727350687915615	0	nnrti_among_viremic_pt_subtype_bestref_cat	independence
+subtype_bestref_catC	0.9958561583571696	0.4713259776402589	2.1041265179209807	0.9913193585295732	nnrti_among_viremic_pt_subtype_bestref_cat	independence
+subtype_bestref_catD	1.1341396826862864	0.8135065608621327	1.5811462153182791	0.4577943641726998	nnrti_among_viremic_pt_subtype_bestref_cat	independence
+subtype_bestref_catother	0.8982813828362038	0.5997788876920469	1.3453448584279375	0.6027021270338944	nnrti_among_viremic_pt_subtype_bestref_cat	independence

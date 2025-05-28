@@ -1,0 +1,16 @@
+label	var	n	obs	rr	P	rr_adj	P_adj
+age_cat							
+age_cat	(14,24]	649	53 (8.2%)	ref	ref	ref	ref
+age_cat	(24,34]	1603	117 (7.3%)	0.9 (0.66, 1.22)	0.5	0.92 (0.67, 1.24)	0.58
+age_cat	(34,49]	954	69 (7.2%)	0.94 (0.65, 1.35)	0.72	0.94 (0.65, 1.35)	0.74
+comm_cat							
+comm_cat	fishing	1529	110 (7.2%)	ref	ref	ref	ref
+comm_cat	inland	1677	129 (7.7%)	1.13 (0.84, 1.5)	0.42	1.17 (0.88, 1.56)	0.27
+sex							
+sex	F	1566	135 (8.6%)	ref	ref	ref	ref
+sex	M	1640	104 (6.3%)	0.74 (0.56, 0.98)	0.035	0.72 (0.55, 0.95)	0.021
+subtype_bestref_cat							
+subtype_bestref_cat	A1	1010	75 (7.4%)	ref	ref	ref	ref
+subtype_bestref_cat	C	103	8 (7.8%)	1 (0.47, 2.1)	0.99	1.01 (0.39, 2.59)	0.98
+subtype_bestref_cat	D	1439	114 (7.9%)	1.13 (0.81, 1.58)	0.46	1.12 (0.82, 1.54)	0.47
+subtype_bestref_cat	other	654	42 (6.4%)	0.9 (0.6, 1.35)	0.6	1.04 (0.72, 1.48)	0.85

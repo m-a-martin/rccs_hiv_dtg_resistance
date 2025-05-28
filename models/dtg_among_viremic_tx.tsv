@@ -1,0 +1,6 @@
+var	RR	LCI	UCI	P	label	corr
+(Intercept)	7.462160333638192e-22	0	Inf	0.9999615541361325	dtg_among_viremic_tx	NA
+round17	5560558079483065e3	0	Inf	0.9999681839588487	dtg_among_viremic_tx	NA
+round18	1.4112022372510706	0	Inf	0.9999997621547961	dtg_among_viremic_tx	NA
+round19	1.4112022372512882	0	Inf	0.9999997487685159	dtg_among_viremic_tx	NA
+round20	24180242588749218e3	0	Inf	0.9999672883887469	dtg_among_viremic_tx	NA

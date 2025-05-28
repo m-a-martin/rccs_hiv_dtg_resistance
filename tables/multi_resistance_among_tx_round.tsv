@@ -1,0 +1,6 @@
+round	multi-class_among_viremic_tx_n	multi-class_among_viremic_tx_obs	multi-class_among_viremic_tx_Prev. % (95% CI)	multi-class_among_viremic_tx_Prev. ratio (95% CI)	multi-class_among_viremic_tx_p-value	multi-class_among_viremic_tx_spacer	single-class_among_viremic_tx_n	single-class_among_viremic_tx_obs	single-class_among_viremic_tx_Prev. % (95% CI)	single-class_among_viremic_tx_Prev. ratio (95% CI)	single-class_among_viremic_tx_p-value	single-class_among_viremic_tx_spacer
+16	 57	23 (40.4%)	41.5 (31.2, 55.3)	ref	ref	 	 57	 1 (1.8%)	2.3 (0.4, 14.3)	ref	ref	 
+17	172	72 (41.9%)	38.4 (33, 44.8)	0.92 (0.7, 1.22)	0.58	 	172	15 (8.7%)	8.5 (5.3, 13.4)	3.69 (0.57, 23.71)	0.17	 
+18	205	72 (35.1%)	33.5 (28.4, 39.4)	0.81 (0.59, 1.1)	0.17	 	205	21 (10.2%)	10.3 (7, 15.3)	4.51 (0.7, 29.26)	0.11	 
+19	112	28 (25%)	25.5 (19.7, 33.1)	0.61 (0.42, 0.9)	0.013	 	112	20 (17.9%)	17.9 (12.1, 26.3)	7.8 (1.2, 50.68)	0.031	 
+20	 84	 5 (6%)	9.7 (6.1, 15.5)	0.23 (0.14, 0.4)	<0.0001	 	 84	11 (13.1%)	12.9 (7.5, 21.9)	5.62 (0.83, 37.8)	0.076	 

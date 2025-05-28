@@ -1,0 +1,3 @@
+var	RR	LCI	UCI	P	label	corr
+(Intercept)	0.4013293470669198	0.34314815857373454	0.4693752269766327	0	any_among_viremic_tx_comm_cat	independence
+comm_catinland	1.2199439966477186	0.9836384103126738	1.5130187468825333	0.07032881064722496	any_among_viremic_tx_comm_cat	independence

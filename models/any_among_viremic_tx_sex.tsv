@@ -1,0 +1,3 @@
+var	RR	LCI	UCI	P	label	corr
+(Intercept)	0.5235022987374729	0.45958916991618753	0.5963035570080906	0	any_among_viremic_tx_sex	independence
+sexM	0.6516006586323572	0.5207837219916887	0.8152778214847847	1.795780353197607e-4	any_among_viremic_tx_sex	independence
