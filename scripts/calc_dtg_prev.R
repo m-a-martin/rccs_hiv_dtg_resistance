@@ -1,8 +1,8 @@
-library(tidyverse)
-library(geepack)
-library(emmeans)
-library(patchwork)
-source('scripts/utils.R')
+suppressMessages(library(tidyverse))
+suppressMessages(library(geepack))
+suppressMessages(library(emmeans))
+suppressMessages(library(patchwork))
+suppressMessages(source('scripts/utils.R'))
  
 
 clinic_dict = c(

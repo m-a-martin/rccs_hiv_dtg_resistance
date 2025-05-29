@@ -41,13 +41,14 @@ rccs_metadata = rccs_metadata %>%
 	rename('study_id_internal'='study_id') %>%
 	left_join(study_id_map, 'study_id_internal')
 
-# get survey dates through R19
+# get survey dates 
 survey_dates = rccs_metadata %>% group_by(round) %>% 
 	summarise(
-		round_min_date = quantile(int_date, c(0.01), type=1, na.rm=TRUE),
+		round_min_date = quantile(int_date, c(0.001), type=1, na.rm=TRUE),
 		round_mid_date = quantile(int_date, c(0.5), type=1, na.rm=TRUE),
-		round_max_date = quantile(int_date, c(0.99), type=1, na.rm=TRUE)
-		)
+		round_max_date = quantile(int_date, c(0.999), type=1, na.rm=TRUE))
+
+rccs_metadata = rccs_metadata %>% left_join(survey_dates, by='round')
 
 # get sequence data
 format_seq_dat = read_csv('data/2024-10-02_pangea2_mike_sequence_id_metadata.csv', show_col_types=FALSE) %>%
@@ -168,9 +169,12 @@ rccs_hiv_dr_cat = rccs_hiv_dr_cat %>%
 		subtype_bestref == 'C' ~ subtype_bestref,
 		TRUE ~ 'other'))
 
-write_tsv(rccs_hiv_dr_cat %>% select(-vl_dt, -vl_result, -study_id_internal, -sequence_id_internal) %>%
+write_tsv(rccs_hiv_dr_cat %>% 
+		select(-vl_dt, -vl_result, -study_id_internal, -sequence_id_internal, -ageyrs) %>%
 		relocate(study_id) %>%
-		relocate(sequence_id), 
+		relocate(sequence_id) %>%
+		mutate_at(vars(int_date, last_neg_date, first_pos_date, first_supr_date, first_arv_date), 
+			function(x){format(x, "%Y-%m")}), 
 	'data/rakai_drug_resistance_categorized_R15_R20.tsv')
 
 write_tsv(rccs_hiv_dr_cat %>% select(-vl_dt, -vl_result), 
@@ -196,7 +200,9 @@ rakai_hiv_dr_cat = hiv_dr_cat %>%
 write_tsv(rakai_hiv_dr_cat %>% 
 		select(-study_id_internal, -sequence_id_internal) %>%
 		relocate(study_id) %>%
-		relocate(sequence_id),
+		relocate(sequence_id) %>%
+		mutate_at(vars(int_date), 
+			function(x){format(x, "%Y-%m")}),
 		'data/other_rakai_drug_resistance_categorized.tsv')
 
 write_tsv(rakai_hiv_dr_cat,
@@ -251,7 +257,9 @@ write_tsv(
 	hiv_muts %>%
 		inner_join(rccs_metadata %>% select(study_id_internal, int_date, round),
 			by=c('study_id_internal', 'int_date')) %>%
-		select(-study_id_internal, -sequence_id_internal), 
+		select(-study_id_internal, -sequence_id_internal)  %>%
+		mutate_at(vars(int_date), 
+			function(x){format(x, "%Y-%m")}), 
 	'data/rakai_drug_resistance_mut_R15_R20.tsv')
 
 write_tsv(
@@ -268,7 +276,9 @@ write_tsv(
 			left_join(rccs_metadata %>% select(study_id_internal, study_id, int_date, round),
 				by=c('study_id_internal', 'study_id', 'int_date')) %>%
 			filter(is.na(round)) %>%
-			select(-round, -study_id_internal, -sequence_id_internal), 
+			select(-round, -study_id_internal, -sequence_id_internal)  %>%
+			mutate_at(vars(int_date), 
+				function(x){format(x, "%Y-%m")}), 
 	'data/other_rakai_drug_resistance_mut.tsv')
 
 

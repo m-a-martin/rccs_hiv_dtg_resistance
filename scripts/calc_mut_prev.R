@@ -6,11 +6,7 @@ suppressMessages(source('scripts/utils.R'))
  
 
 # todo move all of this data processing to data processing script
-d = read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_types=FALSE)  %>%
-	group_by(round) %>%
-	mutate(
-		median_int_date = median(int_date, na.rm=TRUE)) %>%
-	ungroup() %>%
+d = read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_types=FALSE) %>%
 	mutate(
 		numeric_round = as.numeric(round),
 		round = as.character(round),
@@ -27,7 +23,7 @@ d = read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_type
 
 
 hiv_dr_mut = read_tsv('data/rakai_drug_resistance_mut_R15_R20.tsv',
-	show_col_types=FALSE) %>%
+		show_col_types=FALSE) %>%
 	filter(iteration == '5pct_10' & mut != "WT") %>%
 	mutate(round = as.character(round))
 
@@ -44,7 +40,7 @@ min_outcomes = Inf
 for (i in 1:length(filters)){
 	filter = filters[i]
 	i_d = d %>% filter(eval(parse(text=filter)))
-	muts = i_d %>% select(study_id, round, median_int_date) %>%
+	muts = i_d %>% select(study_id, round, round_mid_date) %>%
 		inner_join(hiv_dr_mut, by=c('study_id', 'round'))
 	get_muts = muts %>% filter(round == max(as.numeric(round))) %>%
 		group_by(mut) %>%
@@ -81,7 +77,7 @@ for (i in 1:length(filters)){
 					corr = m_output$min_qic_corr)
 		# add median int dates if round in pred
 		if ('round' %in% colnames(m_summary)){
-			m_summary = m_summary %>% left_join(m_d %>% select(round, median_int_date) %>% unique(), by='round')
+			m_summary = m_summary %>% left_join(m_d %>% select(round, round_mid_date) %>% unique(), by='round')
 		}
 		write_tsv(m_summary, 
 			paste(out_file, '.tsv', sep=''))
@@ -96,11 +92,11 @@ for (i in 1:length(filters)){
 						'lwr'= 'lower.CL', 
 						'upr'='upper.CL'))
 		if (length(unique(m_d$round)) > 1){
-			pred = pred %>% left_join(m_d %>% group_by(round, median_int_date) %>% 
+			pred = pred %>% left_join(m_d %>% group_by(round, round_mid_date) %>% 
 						summarise(n=n(), obs = sum(y, na.rm=TRUE), .groups='drop'), 
 						by=c('round'))
 		}else{
-			pred = bind_cols(pred, m_d %>% group_by(round, median_int_date) %>% 
+			pred = bind_cols(pred, m_d %>% group_by(round, round_mid_date) %>% 
 						summarise(n=n(), obs = sum(y, na.rm=TRUE), .groups='drop'))
 		}
 		pred = pred %>% mutate(

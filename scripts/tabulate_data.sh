@@ -4,16 +4,39 @@
 #### TABUALTE DESCRIPTIVE STATS ####
 #### -------------------------- ####
 # Demographics of study pop over time
+# we pull ageyrs from internal file, not sharing publicly
 Rscript scripts/tabulate_time_stratified_count.R \
-	--dat data/rakai_drug_resistance_categorized_R15_R20.tsv \
-	--tableVars ageyrs age_cat comm_type sex \
-	--out par_round_stratified_count
+	--dat data/rakai_drug_resistance_categorized_R15_R20_internal.tsv \
+	--tableVars ageyrs \
+	--out tmp1
 
 Rscript scripts/tabulate_time_stratified_count.R \
 	--dat data/rakai_drug_resistance_categorized_R15_R20.tsv \
-	--tableVars ageyrs age_cat comm_type sex \
-	--out plhiv_round_stratified_count \
+	--tableVars age_cat comm_type sex \
+	--out tmp2
+
+cat tables/tmp1.tsv <(tail -n +3 tables/tmp2.tsv) > \
+	tables/par_round_stratified_count.tsv
+
+rm -rf tables/tmp*.tsv
+
+# we pull ageyrs from internal file, not sharing publicly
+Rscript scripts/tabulate_time_stratified_count.R \
+	--dat data/rakai_drug_resistance_categorized_R15_R20_internal.tsv \
+	--tableVars ageyrs \
+	--out tmp1 \
 	--filter "finalhiv == 'P'"
+
+Rscript scripts/tabulate_time_stratified_count.R \
+	--dat data/rakai_drug_resistance_categorized_R15_R20.tsv \
+	--tableVars age_cat comm_type sex \
+	--out tmp2 \
+	--filter "finalhiv == 'P'"
+
+cat tables/tmp1.tsv <(tail -n +3 tables/tmp2.tsv) > \
+	tables/plhiv_round_stratified_count.tsv
+
+rm -rf tables/tmp*.tsv
 
 # Sequencing success among treatment-experienced viremic PLHIV 
 # parsing of parenthesis here is weird
@@ -70,21 +93,21 @@ cat \
 	<(head -n 1 models/hiv_among_par.tsv) \
 	<(tail -n +2 models/hiv_among_par.tsv) \
 	<(tail -n +2 models/tx_among_par.tsv) \
-	<(tail -n +2 models/supp_among_par.tsv) \
+	<(tail -n +2 models/viremic_among_par.tsv) \
 	> models/tmp_rr.tsv
 cat \
 	<(head -n 1 models/hiv_among_par_pred.tsv) \
 	<(tail -n +2 models/hiv_among_par_pred.tsv) \
 	<(tail -n +2 models/tx_among_par_pred.tsv) \
-	<(tail -n +2 models/supp_among_par_pred.tsv) \
+	<(tail -n +2 models/viremic_among_par_pred.tsv) \
 	> models/tmp_prev_pred.tsv
 
 Rscript scripts/tabulate_round_prev_rr.R \
 	--prev models/tmp_prev_pred.tsv \
 	--rr models/tmp_rr.tsv \
-	--labelOrder hiv_among_par tx_among_par supp_among_par \
+	--labelOrder hiv_among_par tx_among_par viremic_among_par \
 	--nOut all \
-	--out hiv_tx_supp_among_par
+	--out hiv_tx_viremic_among_par
 rm -rf models/tmp_rr.tsv
 rm -rf models/tmp_prev_pred.tsv
 

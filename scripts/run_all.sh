@@ -17,6 +17,9 @@ Rscript scripts/calc_prev.R
 Rscript scripts/calc_mut_prev.R
 Rscript scripts/calc_dtg_prev.R
 
+# individual level trajectories
+Rscript scripts/vl_traj_model.R
+
 # tabulate data
 bash scripts/tabulate_data.sh
 

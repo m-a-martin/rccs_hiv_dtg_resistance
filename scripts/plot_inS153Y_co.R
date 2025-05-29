@@ -9,7 +9,7 @@ suppressMessages(source('scripts/utils.R'))
 
 
 muts = bind_rows(
-	read_tsv('data/rakai_drug_resistance_mut_all.tsv', show_col_types=FALSE),
+	read_tsv('data/rakai_drug_resistance_mut_R15_R20.tsv', show_col_types=FALSE),
 	read_tsv('data/other_rakai_drug_resistance_mut.tsv', show_col_types=FALSE))
 
 ins153y = muts %>% 

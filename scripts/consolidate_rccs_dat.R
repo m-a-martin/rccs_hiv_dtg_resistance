@@ -4,11 +4,20 @@ suppressMessages(require(readxl))
 
 
 #### 1. DEFINE RCCS VARIABLES TO GET  ####
-rccs_vars = c('study_id', 'round', 'int_date', 'sex', 'age_cat', 'ageyrs', 'comm_cat', 'comm_type', 
-		'ever_arv', 'arv', 'arvsourc2', 'last_non_arv', 'last_non_arv_date', 
-		'first_arv', 'first_arv_date', 'finalhiv', 'first_pos', 'first_pos_date',
-		'last_neg', 'last_neg_date', 'first_supr', 'first_supr_date', 'last_non_supr', 'last_non_supr_date',
-		'pre_treatment', 'est_tx_date', 'est_tx_duration', 'copies', 'numeric_copies', 'vl_copies_cat')
+rccs_vars = c('study_id', 'round', 'int_date', 'sex', 'ageyrs', 'age_cat', 'comm_cat', 'comm_type', 
+		'ever_arv', 'arv',
+		'arvsourc2',
+		#'last_non_arv', 'last_non_arv_date', 
+		'first_arv', 'first_arv_date', 
+		'finalhiv',
+		'first_pos', 'first_pos_date',
+		'last_neg', 'last_neg_date', 
+		'first_supr', 'first_supr_date',
+		#'last_non_supr', 'last_non_supr_date',
+		'pre_treatment',
+		#'est_tx_date', 'est_tx_duration',
+		'copies', 'numeric_copies', 'vl_copies_cat')
+
 arv_vars = c('cuarvmed', 'arvmed', 'ltemmed', 
 			'hivcare', 'hivrslt', 'rhivrlst', 'hivquest', 'rhivever')
 
@@ -62,7 +71,8 @@ rccs_dates = read_excel(rccs_dates_file) %>%
 	mutate(
 		round = as.numeric(str_replace(str_remove(round, "^R0+"), 'S', '.1'))) %>%
 	filter(!is.na(int_date)) %>%
-	select(-curr_id)
+	select(-curr_id) 
+
 # merge
 rccs_merged = rccs_dates %>% right_join(rccs, by=c('study_id', 'round'))
 stopifnot(max((rccs_merged %>% group_by(study_id, round) %>% summarise(n=n(), .groups='drop'))$n) == 1)
@@ -326,4 +336,5 @@ rccs_merged = rccs_merged %>%
 rccs_merged = rccs_merged %>%
 	mutate(comm_cat = if_else(comm_type == "Fish landing site", 'fishing', 'inland'))
 
-write_csv(rccs_merged %>% select(any_of(rccs_vars)), gsub('.csv', '_consolidated.csv', rccs_data_file))
+write_csv(rccs_merged %>% select(any_of(c(rccs_vars, 'min_int_date', 'median_int_date', 'max_int_date'))), 
+	gsub('.csv', '_consolidated.csv', rccs_data_file))

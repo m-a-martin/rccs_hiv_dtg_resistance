@@ -17,46 +17,49 @@ pred = bind_rows(
 	read_tsv('models/pi_among_viremic_pt_pred.tsv', show_col_types=FALSE)) %>%
 	mutate(label = str_split(label, '_', simplify=TRUE)[,1]) %>%
 	mutate(label = ordered(label, levels=unique(label)),
-		median_int_date = as.Date(median_int_date)+ dodge[label]) %>%
+		round_mid_date = as.Date(round_mid_date)+ dodge[label]) %>%
 	mutate(lwr = if_else(obs == 0, NA, lwr),
 		upr = if_else(obs == 0, NA, upr))
 
-d = read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_types=FALSE)  %>%
-	group_by(round) %>%
-	summarise(
-		min_int_date = as.Date(quantile(int_date, 0.01, na.rm=TRUE)),
-		median_int_date = as.Date(median(int_date, na.rm=TRUE)),
-		max_int_date = as.Date(quantile(int_date, 0.99, na.rm=TRUE)),
-		.groups='drop') %>%
-	merge(pred %>% select(round) %>% unique(),
-		how='inner', on='round')
 
+#	group_by(round) %>%
+#	summarise(
+#		round_min_date = as.Date(quantile(int_date, 0.01, na.rm=TRUE)),
+#		round_mid_date = as.Date(median(int_date, na.rm=TRUE)),
+#		round_max_date = as.Date(quantile(int_date, 0.99, na.rm=TRUE)),
+#		.groups='drop') %>%
+#	merge(pred %>% select(round) %>% unique(),
+#		how='inner', on='round')
+
+d = read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_types=FALSE)  %>%
+	select(round, round_min_date, round_mid_date, round_max_date) %>%
+	unique()
 recs = as_tibble(d %>% slice(seq(nrow(d),1,-2)) %>%
-	select(min_int_date, max_int_date) %>%
-	rename(c('starts' = 'min_int_date',
-		'ends' = 'max_int_date')) %>%
+	select(round_min_date, round_max_date) %>%
+	rename(c('starts' = 'round_min_date',
+		'ends' = 'round_max_date')) %>%
 	mutate(starts = as.Date(starts), ends=as.Date(ends)))
 
 ymax=5*ceiling(max(pred$upr, na.rm=TRUE)*100/5)
 pA = ggplot(pred) + 
 	geom_rect(data=recs, aes(xmin=starts, xmax=ends, ymin=-ymax*0.03, ymax=ymax), fill='#eaeaea') +
 	geom_line(
-		aes(x=median_int_date, y=fit*100, group=label),
+		aes(x=round_mid_date, y=fit*100, group=label),
 		linewidth=2, color='white') + 
 	geom_point(
-		aes(x=median_int_date, y=fit*100, group=label, shape=label),
+		aes(x=round_mid_date, y=fit*100, group=label, shape=label),
 		fill='white', color='white', size=5) +
 	geom_errorbar(
-		aes(x=median_int_date, ymin=lwr*100, ymax=upr*100, group=label),
+		aes(x=round_mid_date, ymin=lwr*100, ymax=upr*100, group=label),
 		color='white', linewidth=2, width=0) +
 	geom_errorbar(
-		aes(x=median_int_date, ymin=lwr*100, ymax=upr*100, group=label, color=label),
+		aes(x=round_mid_date, ymin=lwr*100, ymax=upr*100, group=label, color=label),
 		width=0, linewidth=1.5) +
 	geom_line(
-		aes(x=median_int_date, y=fit*100, group=label, color=label),
+		aes(x=round_mid_date, y=fit*100, group=label, color=label),
 		linewidth=1.5) + 
 	geom_point(
-		aes(x=median_int_date, y=fit*100, group=label, color=label, shape=label),
+		aes(x=round_mid_date, y=fit*100, group=label, color=label, shape=label),
 		fill='#eaeaea', size=3, stroke=1.5) +
 	scale_y_continuous(expand=c(0,0), limits=c(-ymax*0.03, ymax)) +
 	ylab('prevalence (%)') +
@@ -131,29 +134,29 @@ long_mut_pred = do.call('rbind',lapply(files,function(x){read_tsv(x, show_col_ty
 		by='mut') %>%
 	mutate(
 		label = ordered(mut, levels=unique(mut)),
-		median_int_date = as.Date(median_int_date)+ dodge[label])
+		round_mid_date = as.Date(round_mid_date)+ dodge[label])
 
 
 ymax=5*ceiling(max(pred$upr, na.rm=TRUE)*100/5)
 pC = ggplot(long_mut_pred) + 
 	geom_rect(data=recs, aes(xmin=starts, xmax=ends, ymin=-ymax*0.03, ymax=ymax), fill='#eaeaea') +
 	geom_line(
-		aes(x=median_int_date, y=fit*100, group=label),
+		aes(x=round_mid_date, y=fit*100, group=label),
 		linewidth=2, color='white') + 
 	geom_point(
-		aes(x=median_int_date, y=fit*100, group=label, shape=label),
+		aes(x=round_mid_date, y=fit*100, group=label, shape=label),
 		fill='white', color='white', size=5) +
 	geom_errorbar(
-		aes(x=median_int_date, ymin=lwr*100, ymax=upr*100, group=label),
+		aes(x=round_mid_date, ymin=lwr*100, ymax=upr*100, group=label),
 		color='white', linewidth=2, width=0) +
 	geom_errorbar(
-		aes(x=median_int_date, ymin=lwr*100, ymax=upr*100, group=label, color=label),
+		aes(x=round_mid_date, ymin=lwr*100, ymax=upr*100, group=label, color=label),
 		width=0, linewidth=1.5) +
 	geom_line(
-		aes(x=median_int_date, y=fit*100, group=label, color=label),
+		aes(x=round_mid_date, y=fit*100, group=label, color=label),
 		linewidth=1.5) + 
 	geom_point(
-		aes(x=median_int_date, y=fit*100, group=label, color=label, shape=label),
+		aes(x=round_mid_date, y=fit*100, group=label, color=label, shape=label),
 		fill='#eaeaea', size=3, stroke=1.5) +
 	scale_y_continuous(expand=c(0,0), limits=c(-ymax*0.03, ymax)) +
 	ylab('prevalence (%)') +

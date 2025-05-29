@@ -17,8 +17,8 @@ muts = bind_rows(
 	read_tsv('data/other_rakai_drug_resistance_mut.tsv', show_col_types=FALSE))
 
 dat = bind_rows(
-	read_tsv('data/rakai_drug_resistance_categorized_R15_R20_internal.tsv', show_col_types=FALSE),
-	read_tsv('data/other_rakai_drug_resistance_categorized_internal.tsv', show_col_types=FALSE)) %>%
+	read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_types=FALSE),
+	read_tsv('data/other_rakai_drug_resistance_categorized.tsv', show_col_types=FALSE)) %>%
 	filter(viremic & !is.na(insti) & !is.na(nnrti) & !is.na(nrti) & !is.na(pi)) %>%
 	select(study_id, round, sex, int_date, Mut, numeric_copies, viremic, subtype_bestref)
 
@@ -57,20 +57,20 @@ a1 = read.newick('data/2024-10-02_pangea2_aln_pol_mask_A1_inS153Y.fasta.treefile
 a1 = drop.tip(a1, "K03455.1")
 #a1 = as.treedata(a1)
 g = '#333333'
-ymax1 = 0.0875
+ymax1 = 0.0905
 p2 = ggplot() +
 		geom_tile(aes(
-			x=seq(0,ymax1,0.0005), 
-			y=rep(15.5,length(seq(0,ymax1,0.0005))), 
-			fill = seq(0,ymax1, 0.0005)),
-			height=5, alpha=0.75) +
-		scale_fill_gradient2(low = 'white',high = colors['insti'], midpoint = round(2*ymax1/3, 2), guide="none") +
+			x=seq(ymax1/2,ymax1,0.0005), 
+			y=rep(37.5,length(seq(ymax1/2,ymax1,0.0005))),
+			alpha=seq(0,1,1/(length(seq(ymax1/2,ymax1,0.0005))-1))),
+			fill=colors['insti'],
+			height=5) +
 		geom_tree(data=a1, aes(x=x,y=y), color='white', linewidth=2) +
 		geom_tree(data=a1, aes(x=x,y=y), color=g, linewidth=1) +
-		geom_tippoint(data=a1,aes(x=x,y=y, alpha=grepl('True', label)),
-			color="white", fill="white", size=4, shape=21, stroke=1) +
-		geom_tippoint(data=a1, aes(x=x,y=y, alpha=grepl('True', label)),
-			fill=colors['insti'], color=g, size=3, shape=21, stroke=1) +
+		geom_tippoint(data=a1,aes(x=x,y=if_else(grepl('True', label), y, NA)),
+			color="white", fill="white",  shape=21, stroke=1, size=4) +
+		geom_tippoint(data=a1, aes(x=x,y=if_else(grepl('True', label), y, NA)),
+			fill=colors['insti'], color=g, shape=21, stroke=1, size=3) +
 		geom_shadowtext(
 	    	data = tibble(x=c(0.0125), y=c(nrow(as_tibble(a1) %>% filter(!is.na(label)))*0.9),
     			label=c("inS153Y")),
@@ -78,21 +78,16 @@ p2 = ggplot() +
 	   		color=colors['insti'],
 	   		size = 6,
 	    	bg.color = g, bg.r=0.1) +
-		scale_alpha_manual(values=c(0,1)) +
 		ggtitle('subtype A1') +
+		scale_alpha_continuous(range=c(0,0.75), guide="none") +
 		scale_y_continuous(breaks=NULL, name=NULL) +
 		xlab('substitutions/site') +
-		#scale_x_continuous(limits=c(0,ymax1),
-		#	breaks=c(0, 0.025, 0.05, 0.075, 0.10),
-		#	name='substitutions/site') +
-		guides(alpha="none") +
-		#scale_x_continuous(breaks=NULL, name=NULL) +
 		gtheme +
 		theme(
 			plot.title=element_text(size=20),
 			panel.grid.major.y = element_blank(),
 			panel.grid.minor.y = element_blank(),
-			axis.line = element_blank(),
+			axis.line.x = element_line(color='#333333'),
 			panel.border = element_blank(),
 			plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm")) 
 
@@ -104,32 +99,26 @@ g = '#333333'
 ymax2 = 0.085
 p3 = ggplot() +
 		geom_tile(aes(
-			x=seq(0,ymax2,0.0005), 
-			y=rep(39,length(seq(0,ymax2,0.0005))), 
-			fill = seq(0,ymax2, 0.0005)),
-			height=4, alpha=0.75) +
-		scale_fill_gradient2(low = 'white',high = colors['insti'], midpoint = round(2*ymax2/3, 2), guide="none") +
+			x=seq(ymax2/2,ymax2,0.0005), 
+			y=rep(39,length(seq(ymax2/2,ymax2,0.0005))),
+			alpha=seq(0,1,1/(length(seq(ymax2/2,ymax2,0.0005))-1))), 
+			height=4, fill=colors['insti']) +
 		geom_tree(data=d, aes(x=x,y=y), color='white', linewidth=2) +
 		geom_tree(data=d, aes(x=x,y=y), color=g, linewidth=1) +
-		geom_tippoint(data=d,aes(x=x,y=y, alpha=grepl('True', label)),
+		geom_tippoint(data=d,aes(x=x,y=if_else(grepl('True', label), y, NA)),
 			color="white", fill="white", size=4, shape=21, stroke=1) +
-		geom_tippoint(data=d, aes(x=x,y=y, alpha=grepl('True', label)),
+		geom_tippoint(data=d, aes(x=x,y=if_else(grepl('True', label), y, NA)),
 			fill=colors['insti'], color=g, size=3, shape=21, stroke=1) +
-		scale_alpha_manual(values=c(0,1)) +
 		ggtitle('subtype D') +
+		scale_alpha_continuous(range=c(0,0.75), guide="none") +
 		scale_y_continuous(breaks=NULL, name=NULL) +
 		xlab('substitutions/site') +
-		#scale_x_continuous(limits=c(0,ymax2),
-		#	breaks=c(0, 0.025, 0.05, 0.075, 0.10),
-		#	name='substitutions/site') +
-		guides(alpha="none") +
-		#scale_x_continuous(breaks=NULL, name=NULL) +
 		gtheme +
 		theme(
 			plot.title=element_text(size=20),
 			panel.grid.major.y = element_blank(),
 			panel.grid.minor.y = element_blank(),
-			axis.line = element_blank(),
+			axis.line.x = element_line(color='#333333'),
 			panel.border = element_blank(),
 			plot.margin = unit(c(0.5, 0.5, 0.5, 0.5), "cm")) 
 

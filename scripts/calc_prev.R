@@ -1,18 +1,12 @@
-library(tidyverse)
-library(geepack)
-library(emmeans)
-library(patchwork)
-source('scripts/utils.R')
+suppressMessages(library(tidyverse))
+suppressMessages(library(geepack))
+suppressMessages(library(emmeans))
+suppressMessages(library(patchwork))
+suppressMessages(source('scripts/utils.R'))
  
 
 # todo move all of this data processing to data processing script
 d = read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_types=FALSE)  %>%
-	group_by(round) %>%
-	mutate(
-		min_int_date = quantile(int_date, 0.01, na.rm=TRUE),
-		median_int_date = median(int_date, na.rm=TRUE),
-		max_int_date = quantile(int_date, 0.99, na.rm=TRUE)) %>%
-	ungroup() %>%
 	mutate(
 		numeric_round = as.numeric(round),
 		round = as.character(round))
@@ -48,7 +42,7 @@ for (i in 1:length(outcomes)){
 				corr = m_output$min_qic_corr)
 	# add median int dates if round in pred
 	if ('round' %in% colnames(m_summary)){
-		m_summary = m_summary %>% left_join(i_d %>% select(round, min_int_date, median_int_date, max_int_date) %>% unique(), by='round')
+		m_summary = m_summary %>% left_join(i_d %>% select(round, round_min_date, round_mid_date, round_max_date) %>% unique(), by='round')
 	}
 	write_tsv(m_summary, 
 		paste(out_file, '.tsv', sep=''))
@@ -69,7 +63,7 @@ for (i in 1:length(outcomes)){
 			summarise(n=sum(!is.na(y)), obs = sum(y, na.rm=TRUE), .groups='drop'))
 	# add median int dates if round in pred
 	if ('round' %in% colnames(pred)){
-		pred = pred %>% left_join(i_d %>% select(round, min_int_date, median_int_date, max_int_date) %>% unique(), by='round')
+		pred = pred %>% left_join(i_d %>% select(round, round_min_date, round_mid_date, round_max_date) %>% unique(), by='round')
 	}
 	# add labels
 	pred = pred %>% mutate(

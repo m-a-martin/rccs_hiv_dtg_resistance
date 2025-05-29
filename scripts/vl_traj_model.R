@@ -95,16 +95,8 @@ get_hpd = function(x){
 labels = c('overall', 'nnrti', 'nrti')
 dm_cols = c('round', 'age_cat', 'sex', 'comm_type')
 
-d = read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_types=FALSE)  %>%
-	group_by(round) %>%
+d = read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_types=FALSE) %>%
 	mutate(
-		median_int_date = median(int_date, na.rm=TRUE)) %>%
-	ungroup() %>%
-	mutate(
-		comm_type = case_when(
-			comm_type == "Agrarian community" ~ "inland",
-			comm_type == "Fish landing site" ~ "fishing",
-			comm_type == "Trading community" ~ 'inland'),
 		numeric_round = as.numeric(round),
 		round = as.character(round))
 
@@ -134,12 +126,12 @@ ahead_d = d %>%
 uniq_rounds = d %>% 
 	filter(round >= 17 & round <= 20) %>%
 	ungroup() %>%
-	select(round, median_int_date) %>% 
+	select(round, round_mid_date) %>% 
 	unique() %>% 
 	arrange(round) %>% 
 	mutate(
 		round_idx = seq(1,n()),
-		median_int_date = as.Date(median_int_date))
+		round_mid_date = as.Date(round_mid_date))
 
 #### PROBABILITY OF SUPPRESSION AMONG VIREMIC PLHIV BY RESISTANCE STATUS ####
 m = cmdstanr::cmdstan_model(paste0('stan/vl_pairs_resistance.stan'))

@@ -9,28 +9,28 @@ pred_plot = function(dat, recs){
 	for (s in c('susceptible', 'intermediate/high')){
 		p = p + 
 			geom_line(data=dat %>% filter(status == s),
-				aes(x=median_int_date, y=median*100, group=status, color=status),
+				aes(x=round_mid_date, y=median*100, group=status, color=status),
 				linewidth=2, color='white') + 
 			geom_point(data=dat %>% filter(status == s),
-				aes(x=median_int_date, y=median*100, group=status, color=status),
+				aes(x=round_mid_date, y=median*100, group=status, color=status),
 				fill='white', color='white', shape=21, size=5) +
 			geom_errorbar(data=dat %>% filter(status == s),
-				aes(x=median_int_date, ymin=`095lower`*100 -0.25, ymax=`095upper`*100 + 0.25),
+				aes(x=round_mid_date, ymin=`095lower`*100 -0.25, ymax=`095upper`*100 + 0.25),
 				color='white', linewidth=2, width=0) +
 			geom_errorbar(data=dat %>% filter(status == s),
-				aes(x=median_int_date, ymin=`050lower`*100 - 0.25, ymax=`050upper`*100 + 0.25),
+				aes(x=round_mid_date, ymin=`050lower`*100 - 0.25, ymax=`050upper`*100 + 0.25),
 				color='white', linewidth=3, width=0) +
 			geom_errorbar(data=dat %>% filter(status == s),
-				aes(x=median_int_date, ymin=`095lower`*100, ymax=`095upper`*100, color=status),
+				aes(x=round_mid_date, ymin=`095lower`*100, ymax=`095upper`*100, color=status),
 				linewidth=1.5, width=0) +
 			geom_errorbar(data=dat %>% filter(status == s),
-				aes(x=median_int_date, ymin=`050lower`*100, ymax=`050upper`*100, color=status),
+				aes(x=round_mid_date, ymin=`050lower`*100, ymax=`050upper`*100, color=status),
 				linewidth=2.5, width=0) +
 		 	geom_line(data=dat %>% filter(status == s),
-				aes(x=median_int_date, y=median*100, group=status, color=status), 
+				aes(x=round_mid_date, y=median*100, group=status, color=status), 
 		 		linewidth=1.5) + 
 		 	geom_point(data=dat %>% filter(status == s),
-				aes(x=median_int_date, y=median*100, group=status, color=status),
+				aes(x=round_mid_date, y=median*100, group=status, color=status),
 		 		shape=21, fill='#eaeaea', size=3, stroke=1.5)
 	}
 	return(p + scale_y_continuous(limits=c(-2.5, 102.5), expand=c(0,0), name='posterior prob.\nof suppression (%)') + 
@@ -52,25 +52,25 @@ rr_plot = function(rr, recs){
 		ggplot(rr) +
 			geom_hline(aes(yintercept=1), color='#848484', linetype='dashed') +
 			#geom_rect(data=recs, aes(xmin=starts, xmax=ends, ymin=0, ymax=1), fill='#eaeaea') +
-			geom_line(aes(x=median_int_date, y=median),
+			geom_line(aes(x=round_mid_date, y=median),
 				linewidth=2, color='white') + 
-			geom_point(aes(x=median_int_date, y=median),
+			geom_point(aes(x=round_mid_date, y=median),
 				fill='white', color='white', shape=21, size=5) +
 			geom_errorbar(
-				aes(x=median_int_date, ymin=`095lower`, ymax=`095upper`),
+				aes(x=round_mid_date, ymin=`095lower`, ymax=`095upper`),
 				color='white', linewidth=2, width=0) +
 			geom_errorbar(
-				aes(x=median_int_date, ymin=`050lower`, ymax=`050upper`),
+				aes(x=round_mid_date, ymin=`050lower`, ymax=`050upper`),
 				color='white', linewidth=3, width=0) +
 			geom_errorbar(
-				aes(x=median_int_date, ymin=`095lower`, ymax=`095upper`),
+				aes(x=round_mid_date, ymin=`095lower`, ymax=`095upper`),
 				linewidth=1.5, width=0, color='#333333') +
 			geom_errorbar(
-				aes(x=median_int_date, ymin=`050lower`, ymax=`050upper`),
+				aes(x=round_mid_date, ymin=`050lower`, ymax=`050upper`),
 				linewidth=2.5, width=0, color='#333333') +
-		 	geom_line(aes(x=median_int_date, y=median), 
+		 	geom_line(aes(x=round_mid_date, y=median), 
 		 		linewidth=1.5, color='#333333') + 
-		 	geom_point(aes(x=median_int_date, y=median),
+		 	geom_point(aes(x=round_mid_date, y=median),
 		 		shape=21, fill='#eaeaea', size=3, stroke=1.5, color='#333333') +
 		 	ylim(0,2) +
 		 	ylab('posterior prob. of\nsuppresison ratio') +
@@ -89,39 +89,31 @@ dodge = c('NA' = 0, 'susceptible' = -20, 'intermediate/high' = 20)
 
 all_pred = read_tsv('models/overall_posterior_prob_suppression.tsv', show_col_types=FALSE) %>%
 		filter(grepl('round_mu_pred\\[', name) & status == "susceptible") %>%
-		mutate(median_int_date = as.Date(median_int_date))
+		mutate(round_mid_date = as.Date(round_mid_date))
 
 nnrti = read_tsv('models/nnrti_posterior_prob_suppression.tsv', show_col_types=FALSE) %>%
 	filter(grepl('round_mu_pred\\[', name) | grepl('within_round_rr\\[', name))  %>%
-		mutate(median_int_date = if_else(
+		mutate(round_mid_date = if_else(
 			is.na(status), 
-				as.Date(median_int_date),
-				as.Date(median_int_date)+ dodge[as.character(status)]))
+				as.Date(round_mid_date),
+				as.Date(round_mid_date)+ dodge[as.character(status)]))
 
 nrti = read_tsv('models/nrti_posterior_prob_suppression.tsv', show_col_types=FALSE) %>%
 	filter(grepl('round_mu_pred\\[', name) | grepl('within_round_rr\\[', name))  %>%
-		mutate(median_int_date = if_else(
+		mutate(round_mid_date = if_else(
 			is.na(status), 
-				as.Date(median_int_date),
-				as.Date(median_int_date)+ dodge[as.character(status)]))
+				as.Date(round_mid_date),
+				as.Date(round_mid_date)+ dodge[as.character(status)]))
 
 
 d = read_tsv('data/rakai_drug_resistance_categorized_R15_R20.tsv', show_col_types=FALSE)  %>%
-	group_by(round) %>%
-	summarise(
-		min_int_date = as.Date(quantile(int_date, 0.01, na.rm=TRUE)),
-		median_int_date = as.Date(median(int_date, na.rm=TRUE)),
-		max_int_date = as.Date(quantile(int_date, 0.99, na.rm=TRUE)),
-		.groups='drop') %>%
-	merge(all_pred %>% select(round) %>% unique(),
-		how='inner', on='round')
-
+	select(round, round_min_date, round_mid_date, round_max_date) %>%
+	unique()
 recs = as_tibble(d %>% slice(seq(nrow(d),1,-2)) %>%
-	select(min_int_date, max_int_date) %>%
-	rename(c('starts' = 'min_int_date',
-		'ends' = 'max_int_date')) %>%
+	select(round_min_date, round_max_date) %>%
+	rename(c('starts' = 'round_min_date',
+		'ends' = 'round_max_date')) %>%
 	mutate(starts = as.Date(starts), ends=as.Date(ends)))
-
 
 pA = pred_plot(nnrti %>% filter(grepl('round_mu_pred\\[', name)), recs) +
 	scale_color_manual(
