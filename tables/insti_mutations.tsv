@@ -1,4 +1,4 @@
-sex	ageyrs	round_year	insti_mutations	other_mutations	treatment_status	first_arv_date	last_neg_date	first_pos_date
+sex	age_cat	round_year	insti_mutations	other_mutations	treatment_status	first_arv_date	last_neg_date	first_pos_date
 F	(24,34]	2012	inQ148R		pre-treatment			April 1999
 F	(14,24]	2015	inR263K	prK43T	treatment-experienced	July 2013	August 2011	July 2013
 F	(24,34]	2022	inS153Y		pre-treatment		February 2014	November 2021

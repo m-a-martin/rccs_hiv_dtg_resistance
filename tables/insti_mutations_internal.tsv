@@ -1,22 +1,22 @@
-study_id	sex	ageyrs	round_year	insti_mutations	other_mutations	treatment_status	first_arv_date	last_neg_date	first_pos_date
-E035300	F	(24,34]	2012	inQ148R		pre-treatment			April 1999
-A069151	F	(14,24]	2015	inR263K	prK43T	treatment-experienced	July 2013	August 2011	July 2013
-A106353	F	(24,34]	2022	inS153Y		pre-treatment		February 2014	November 2021
-A139771	F	(14,24]	2022	inS153Y	prL23I	pre-treatment			March 2022
-B030239	M	(34,49]	2022	inS153Y	prG73V, prL23I	pre-treatment		August 2019	August 2022
-C139430	M	(24,34]	2022	inS153Y		pre-treatment			December 2021
-D033545	M	(14,24]	2022	inS153Y	rtF227L, rtK103N	pre-treatment		May 2017	May 2021
-D105440	F	(24,34]	2022	inS153Y		pre-treatment		September 2018	October 2021
-F139988	F	(14,24]	2022	inS153Y		pre-treatment			April 2022
-H045429	F	(34,49]	2022	inS153Y		pre-treatment		July 2018	August 2021
-H126704	F	(24,34]	2022	inS153Y		pre-treatment		February 2017	May 2021
-J139460	F	(24,34]	2022	inS153Y		pre-treatment			December 2021
-A128676	M	(34,49]	2022	inS153Y	rtF77L	treatment-experienced	August 2017		August 2017
-A138954	F	(14,24]	2022	inS153Y	rtK103N	treatment-experienced	October 2021		October 2021
-B135950	F	(14,24]	2022	inE138K, inQ148K, inG140A	rtM41L, rtG190S, rtM184V	treatment-experienced	September 2020		September 2020
-C139074	M	(14,24]	2022	inS153Y		treatment-experienced	November 2021		November 2021
-D184342	M	(24,34]	2022	inS153Y		treatment-experienced	February 2019	August 2011	August 2015
-F116822	F	(24,34]	2022	inS153Y		treatment-experienced	October 2018		April 2014
-J138732	F	(14,24]	2022	inT97A, inS153Y	rtV179L	treatment-experienced	October 2021		October 2021
-K047659	F	(34,49]	2022	inQ148R, inE138K	rtM184V	treatment-experienced	November 2014	April 2006	January 2008
-K121523	M	(34,49]	2022	inS153Y		treatment-experienced	February 2019		August 2015
+study_id	sex	age_cat	round_year	insti_mutations	other_mutations	treatment_status	first_arv_date	last_neg_date	first_pos_date
+16284	F	(24,34]	2012	inQ148R		pre-treatment			April 1999
+13513	F	(14,24]	2015	inR263K	prK43T	treatment-experienced	July 2013	August 2011	July 2013
+19515	F	(24,34]	2022	inS153Y		pre-treatment		February 2014	November 2021
+19372	F	(14,24]	2022	inS153Y	prL23I	pre-treatment			March 2022
+21793	M	(34,49]	2022	inS153Y	prG73V, prL23I	pre-treatment		August 2019	August 2022
+40934	M	(24,34]	2022	inS153Y		pre-treatment			December 2021
+16208	M	(14,24]	2022	inS153Y	rtF227L, rtK103N	pre-treatment		May 2017	May 2021
+36454	F	(24,34]	2022	inS153Y		pre-treatment		September 2018	October 2021
+42998	F	(14,24]	2022	inS153Y		pre-treatment			April 2022
+31609	F	(34,49]	2022	inS153Y		pre-treatment		July 2018	August 2021
+30284	F	(24,34]	2022	inS153Y		pre-treatment		February 2017	May 2021
+39941	F	(24,34]	2022	inS153Y		pre-treatment			December 2021
+47286	M	(34,49]	2022	inS153Y	rtF77L	treatment-experienced	August 2017		August 2017
+37114	F	(14,24]	2022	inS153Y	rtK103N	treatment-experienced	October 2021		October 2021
+04449	F	(14,24]	2022	inE138K, inQ148K, inG140A	rtM41L, rtG190S, rtM184V	treatment-experienced	September 2020		September 2020
+36345	M	(14,24]	2022	inS153Y		treatment-experienced	November 2021		November 2021
+15335	M	(24,34]	2022	inS153Y		treatment-experienced	February 2019	August 2011	August 2015
+35550	F	(24,34]	2022	inS153Y		treatment-experienced	October 2018		April 2014
+41004	F	(14,24]	2022	inT97A, inS153Y	rtV179L	treatment-experienced	October 2021		October 2021
+08593	F	(34,49]	2022	inQ148R, inE138K	rtM184V	treatment-experienced	November 2014	April 2006	January 2008
+16868	M	(34,49]	2022	inS153Y		treatment-experienced	February 2019		August 2015
